@@ -43,46 +43,26 @@ class FilterSNPStatUnsplittable(Statistic):
         import numpy as np
         filterThreshold = self._filterThreshold
 
-        tmp = []
-        filtered = []
         SNPcount = len(snps)
-
-        maxWindowFlagSet = False
-        currSNP = snps[0]
-        nextSNP = snps[1]
         notNanIndexes = ~np.isnan(pval)
 
-        i = 0
-        while i < SNPcount - 1:
-
+        filtered = []
+        locusList = [0]
+        i = 1
+        while i < SNPcount:
+            prevSNP = snps[i - 1]
             currSNP = snps[i]
-            nextSNP = snps[i+1]
+            lowerLocusLimit = snps[locusList[0]]
 
-            if nextSNP - currSNP <= filterThreshold and not maxWindowFlagSet:
-                if len(tmp) > 0 and nextSNP - snps[tmp[0]] > filterThreshold:
-                    maxWindowFlagSet = True
-                    i -= 1
-                    continue
-                else:
-                    tmp.append(i)
+            if currSNP - lowerLocusLimit > filterThreshold:
+                filtered.append(self._keepSNP(snps, pval, notNanIndexes, np.asarray(locusList)))
+                locusList = [i]
+            elif currSNP - prevSNP <= filterThreshold:
+                locusList.append(i)
 
-            elif len(tmp) > 0:
-                if nextSNP - currSNP > filterThreshold:
-                    tmp.append(i)
-
-                filtered.append(self._keepSNP(snps, pval, notNanIndexes, np.asarray(tmp)))
-                tmp = []
-                maxWindowFlagSet = False
-            else:
-                filtered.append(currSNP)
             i += 1
 
-        if nextSNP - currSNP <= filterThreshold:
-            tmp.append(SNPcount - 1)
-            filtered.append(self._keepSNP(snps, pval, notNanIndexes, tmp))
-        else:
-            filtered.append(nextSNP)
-
+        filtered.append(self._keepSNP(snps, pval, notNanIndexes, np.asarray(locusList)))
         return filtered
 
     def _compute(self):

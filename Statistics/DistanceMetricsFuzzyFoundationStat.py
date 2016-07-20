@@ -47,6 +47,8 @@ class DistanceMetricsFuzzyFoundationStatUnsplittable(DistanceMetricsBlockFoundat
         The curve fits somewhat a model of LD decay, with respect to physical distance, when the sigma of the
         function (below: bell_width) is set to a quarter of the full genetic loci range.
         """
+        if snp1 == snp2:
+            return 1, 0, 0
 
         from math import exp
         bell_width = threshold / 2.0
