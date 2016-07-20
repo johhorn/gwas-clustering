@@ -1,0 +1,6 @@
+{
+  "name": "Data representation and clustering of diseases and traits",
+  "tagline": "Code for HyperBrowser tools of clustering of diseases and traits, as represented data from Genome-Wide Association Studies (GWAS)",
+  "body": "### Code for clustering of diseases and traits\r\nCode and data for the master thesis on tools for clustering of diseases and traits, as represented by Genome-Wide Association Studies (GWAS) data sets.\r\n",
+  "note": "Don't delete this file! It's used internally to help with page regeneration."
+}
