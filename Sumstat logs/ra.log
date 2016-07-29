@@ -1,0 +1,41 @@
+*********************************************************************
+* LD Score Regression (LDSC)
+* Version 1.0.0
+* (C) 2014-2015 Brendan Bulik-Sullivan and Hilary Finucane
+* Broad Institute of MIT and Harvard / MIT Department of Mathematics
+* GNU General Public License v3
+*********************************************************************
+Call: 
+./munge_sumstats.py \
+--out ra \
+--N 58284.0 \
+--sumstats rheumatoid_arthritis_broadinstitute 
+
+Interpreting column names as follows:
+A1:	Allele 1, interpreted as ref allele for signed sumstat.
+OR:	Odds ratio (1 --> no effect; above 1 --> A1 is risk increasing)
+SNPID:	Variant ID (e.g., rs number)
+A2:	Allele 2, interpreted as non-ref allele for signed sumstat.
+P-val:	p-Value
+
+Reading sumstats from rheumatoid_arthritis_broadinstitute into memory 5000000 SNPs at a time.
+Read 8747962 SNPs from --sumstats file.
+Removed 0 SNPs with missing values.
+Removed 0 SNPs with INFO <= 0.9.
+Removed 0 SNPs with MAF <= 0.01.
+Removed 0 SNPs with out-of-bounds p-values.
+Removed 1344225 variants that were not SNPs or were strand-ambiguous.
+7403737 SNPs remain.
+Removed 0 SNPs with duplicated rs numbers (7403737 SNPs remain).
+Using N = 58284.0
+Median value of OR was 1.0, which seems sensible.
+Writing summary statistics for 7403737 SNPs (7403737 with nonmissing beta) to ra.sumstats.gz.
+
+Metadata:
+Mean chi^2 = 1.564
+Lambda GC = 1.0
+Max chi^2 = 1143.797
+19981 Genome-wide significant SNPs (some may have been removed by filtering).
+
+Conversion finished at Mon Jul 25 21:55:12 2016
+Total time elapsed: 1.0m:29.27s

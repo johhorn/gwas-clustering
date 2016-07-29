@@ -1,0 +1,42 @@
+*********************************************************************
+* LD Score Regression (LDSC)
+* Version 1.0.0
+* (C) 2014-2015 Brendan Bulik-Sullivan and Hilary Finucane
+* Broad Institute of MIT and Harvard / MIT Department of Mathematics
+* GNU General Public License v3
+*********************************************************************
+Call: 
+./munge_sumstats.py \
+--out fasting \
+--N 58074.0 \
+--sumstats fasting_glucose.txt 
+
+Interpreting column names as follows:
+effect:	[linear/logistic] regression coefficient (0 --> no effect; above 0 --> A1 is trait/risk increasing)
+other_allele:	Allele 2, interpreted as non-ref allele for signed sumstat.
+snp:	Variant ID (e.g., rs number)
+maf:	Allele frequency
+effect_allele:	Allele 1, interpreted as ref allele for signed sumstat.
+pvalue:	p-Value
+
+Reading sumstats from fasting_glucose.txt into memory 5000000 SNPs at a time.
+Read 2470476 SNPs from --sumstats file.
+Removed 0 SNPs with missing values.
+Removed 0 SNPs with INFO <= 0.9.
+Removed 52606 SNPs with MAF <= 0.01.
+Removed 0 SNPs with out-of-bounds p-values.
+Removed 372966 variants that were not SNPs or were strand-ambiguous.
+2044904 SNPs remain.
+Removed 0 SNPs with duplicated rs numbers (2044904 SNPs remain).
+Using N = 58074.0
+Median value of effect was 0.0, which seems sensible.
+Writing summary statistics for 2044904 SNPs (2044904 with nonmissing beta) to fasting.sumstats.gz.
+
+Metadata:
+Mean chi^2 = 1.071
+Lambda GC = 1.05
+Max chi^2 = 336.057
+241 Genome-wide significant SNPs (some may have been removed by filtering).
+
+Conversion finished at Mon Jul 25 22:33:44 2016
+Total time elapsed: 25.16s

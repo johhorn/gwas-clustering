@@ -1,0 +1,42 @@
+*********************************************************************
+* LD Score Regression (LDSC)
+* Version 1.0.0
+* (C) 2014-2015 Brendan Bulik-Sullivan and Hilary Finucane
+* Broad Institute of MIT and Harvard / MIT Department of Mathematics
+* GNU General Public License v3
+*********************************************************************
+Call: 
+./munge_sumstats.py \
+--out crohns \
+--N 20883.0 \
+--sumstats EUR.CD.filtered.assoc 
+
+Interpreting column names as follows:
+INFO:	INFO score (imputation quality; higher --> better imputation)
+A1:	Allele 1, interpreted as ref allele for signed sumstat.
+P:	p-Value
+A2:	Allele 2, interpreted as non-ref allele for signed sumstat.
+SNP:	Variant ID (e.g., rs number)
+OR:	Odds ratio (1 --> no effect; above 1 --> A1 is risk increasing)
+
+Reading sumstats from EUR.CD.filtered.assoc into memory 5000000 SNPs at a time.
+Read 12276495 SNPs from --sumstats file.
+Removed 0 SNPs with missing values.
+Removed 5475789 SNPs with INFO <= 0.9.
+Removed 0 SNPs with MAF <= 0.01.
+Removed 0 SNPs with out-of-bounds p-values.
+Removed 1463994 variants that were not SNPs or were strand-ambiguous.
+5336712 SNPs remain.
+Removed 2 SNPs with duplicated rs numbers (5336710 SNPs remain).
+Using N = 20883.0
+Median value of OR was 1.0001, which seems sensible.
+Writing summary statistics for 5336710 SNPs (5336710 with nonmissing beta) to crohns.sumstats.gz.
+
+Metadata:
+Mean chi^2 = 1.205
+Lambda GC = 1.126
+Max chi^2 = 272.495
+4403 Genome-wide significant SNPs (some may have been removed by filtering).
+
+Conversion finished at Mon Jul 25 22:25:03 2016
+Total time elapsed: 1.0m:32.16s

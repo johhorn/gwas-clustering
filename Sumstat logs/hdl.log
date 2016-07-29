@@ -1,0 +1,43 @@
+*********************************************************************
+* LD Score Regression (LDSC)
+* Version 1.0.0
+* (C) 2014-2015 Brendan Bulik-Sullivan and Hilary Finucane
+* Broad Institute of MIT and Harvard / MIT Department of Mathematics
+* GNU General Public License v3
+*********************************************************************
+Call: 
+./munge_sumstats.py \
+--out hdl \
+--N 99900.0 \
+--sumstats hdl.tbl.sorted 
+
+Interpreting column names as follows:
+MarkerName:	Variant ID (e.g., rs number)
+Weight:	Sample size
+Allele2:	Allele 2, interpreted as non-ref allele for signed sumstat.
+Allele1:	Allele 1, interpreted as ref allele for signed sumstat.
+GC.Zscore:	Z-score (0 --> no effect; above 0 --> A1 is trait/risk increasing)
+GC.Pvalue:	p-Value
+
+Reading sumstats from hdl.tbl.sorted into memory 5000000 SNPs at a time.
+WARNING: 5 SNPs had P outside of (0,1]. The P column may be mislabeled.
+Read 2692429 SNPs from --sumstats file.
+Removed 0 SNPs with missing values.
+Removed 0 SNPs with INFO <= 0.9.
+Removed 0 SNPs with MAF <= 0.01.
+Removed 5 SNPs with out-of-bounds p-values.
+Removed 414073 variants that were not SNPs or were strand-ambiguous.
+2278351 SNPs remain.
+Removed 0 SNPs with duplicated rs numbers (2278351 SNPs remain).
+Removed 274019 SNPs with N < 66600.0 (2004332 SNPs remain).
+Median value of GC.Zscore was 0.002, which seems sensible.
+Writing summary statistics for 2004332 SNPs (2004332 with nonmissing beta) to hdl.sumstats.gz.
+
+Metadata:
+Mean chi^2 = 1.14
+Lambda GC = 1.016
+Max chi^2 = 1424.989
+1860 Genome-wide significant SNPs (some may have been removed by filtering).
+
+Conversion finished at Mon Jul 25 22:00:44 2016
+Total time elapsed: 26.52s
