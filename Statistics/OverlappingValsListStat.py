@@ -125,10 +125,12 @@ class OverlappingValsListStatUnsplittable(Statistic):
     def _updateValue(self, pos, val, valueDict):
         """
         Called to update value, when position is key in dictionary.
+        Values of -log(pval) are assumed, and the most significant SNP of the two is defined as the one with
+        the highest value.
         """
         value = valueDict[pos]
 
-        if val < value:
+        if val > value:
             valueDict[pos] = val
 
     def _updateIfPresent(self, pos, val, valueDict):

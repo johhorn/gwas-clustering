@@ -18,7 +18,7 @@ class ExpandTrackAndMatchStat(MagicStatFactory):
     a: Overlap between LD clusters
     b: Count of unmatched LD clusters in track1
     c: Count of unmatched LD clusters in track2
-    d: Negative matches: Genomesize - a - b - c
+    d: Negative matches: Undefined (-1)
 
     See example of usage in quick/webtools/clustering/LDExpansionClusteringTool.py
     """

@@ -27,7 +27,7 @@ class CommonClusteringFunctions(GeneralGuiTool):
     SIM_OTSUKA = 'Otsuka'
     SIM_KULCZYNSKI = 'Kulczynski'
     SIM_FORBES = 'Forbes'
-    SIM_MCCONNAUGHEY = 'McConaughey'
+    SIM_MCCONNAUGHEY = 'McConnaughey'
 
     # Correlation measure:
     CORR_PEARSON = 'Pearson'
@@ -55,6 +55,7 @@ class CommonClusteringFunctions(GeneralGuiTool):
     SINGLE = 'single'
     AVG = 'average'
     COMPLETE = 'complete'
+    WEIGHTED = 'weighted'
 
     # Error handling
     GSUITE_ALLOWED_FILE_FORMATS = [GSuiteConstants.PREPROCESSED]
@@ -83,7 +84,8 @@ class CommonClusteringFunctions(GeneralGuiTool):
             CommonClusteringFunctions.DEFAULT_SELECT,
             CommonClusteringFunctions.SINGLE,
             CommonClusteringFunctions.COMPLETE,
-            CommonClusteringFunctions.AVG
+            CommonClusteringFunctions.AVG,
+            CommonClusteringFunctions.WEIGHTED
         ]
 
     @staticmethod
@@ -130,18 +132,25 @@ class CommonClusteringFunctions(GeneralGuiTool):
 
         MatplotlibPlots.dendrogramClusteringPlot(linkageMatrix, labels, dendrogramFile)
         htmlCore.line(seabornFile.getEmbeddedImage())
-        htmlCore.link('PDF of correlation matrix', seabornFile.getURL())
+        htmlCore.link('PDF of similarity matrix', seabornFile.getURL())
         htmlCore.line(dendrogramFile.getEmbeddedImage())
         htmlCore.link('PDF of dendrogram', dendrogramFile.getURL())
 
     @classmethod
-    def printTextMatrixes(cls, correlationMatrix, linkageMatrix, galaxyFn, filename, htmlCore):
+    def printTextMatrixes(cls, correlationMatrix, linkageMatrix, distanceMatrix, galaxyFn, filename, htmlCore):
 
         # Print correlation matrix
         corrMatrixFile = GalaxyRunSpecificFile(['corr_matrix_result_' + filename + '.txt'], galaxyFn)
         corrMatrixPath = corrMatrixFile.getDiskPath(True)
         open(corrMatrixPath, 'w').write(str(correlationMatrix))
-        htmlCore.link('<br><br>View the raw text correlation matrix for this analysis', corrMatrixFile.getURL())
+        htmlCore.link('<br><br>View the raw text similarity/correlation matrix for this analysis',
+                      corrMatrixFile.getURL())
+
+        # Print distance matrix
+        distMatrixFile = GalaxyRunSpecificFile(['dist_matrix_result_' + filename + '.txt'], galaxyFn)
+        distMatrixPath = distMatrixFile.getDiskPath(True)
+        open(distMatrixPath, 'w').write(str(distanceMatrix))
+        htmlCore.link('<br><br>View the raw text triangular distance matrix for this analysis', distMatrixFile.getURL())
 
         # Print linkage matrix
         linkMatrixFile = GalaxyRunSpecificFile(['linkage_matrix_result_' + filename + '.txt'], galaxyFn)
@@ -324,11 +333,12 @@ class CommonClusteringFunctions(GeneralGuiTool):
     @classmethod
     def printForOneDistanceMeasure(cls, distDict, galaxyFn, htmlCore, labels, linkageCriterion, measure):
         htmlCore.divider(True)
-        measureType = 'Correlation' if measure == cls.CORR_PEARSON else 'Distance'
-        htmlCore.smallHeader(measureType + ' with ' + measure)
+        measureType = 'Correlation' if measure == cls.CORR_PEARSON else 'Similarity'
+        htmlCore.smallHeader(measureType + ' matrix and clustering of distances with ' + measure)
+        htmlCore.line('<br>')
         corr, linkage, distance = cls.getDistMatrixes(distDict, measure, linkageCriterion)
         cls.printClusterPlots(corr, linkage, galaxyFn, measure, labels, htmlCore)
-        cls.printTextMatrixes(corr, linkage, galaxyFn, measure, htmlCore)
+        cls.printTextMatrixes(corr, linkage, distance, galaxyFn, measure, htmlCore)
         cls.findRanking(distance, labels, measure, htmlCore)
 
 

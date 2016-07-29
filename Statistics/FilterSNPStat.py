@@ -34,8 +34,8 @@ class FilterSNPStatUnsplittable(Statistic):
 
         filterIndexes = notNanIndexes[indexList]
         notNanArray = pval[indexList][filterIndexes]
-        minPVal = min(notNanArray)
-        index = list(pval[indexList]).index(minPVal)
+        maxPVal = max(notNanArray)
+        index = list(pval[indexList]).index(maxPVal)    # Uses max of p-val, as we assume a -log(pval) transformation
         return snps[indexList][index]
 
     def filterSNP(self, snps, pval):

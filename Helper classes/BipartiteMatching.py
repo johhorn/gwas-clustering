@@ -11,6 +11,7 @@ class BipartiteMatching(object):
     a += Bipartite matching score
     b += (1 - a) / 2
     c += (1 - a) / 2
+    d = undefined (-1)
 
     A dictionary of the a, b, c values is returned. Count of SNPs with no edges, i.e no chance of a match score,
     in each track is added to b and c.
@@ -51,7 +52,7 @@ class BipartiteMatching(object):
             val = max(cost_matrix)
             cost_matrix[row[0], :] = zeros(dimensions[1])
             cost_matrix[:, col[0]] = zeros(dimensions[0])
-            cls.addMatch(cost, val)
+            cost['a'] += val
 
         return cost
 
@@ -79,26 +80,19 @@ class BipartiteMatching(object):
         if track1Length < track2Length:
             for matchID in range(0, track1Length):
                 val = cost_matrix[matchID, matches[matchID]]
-                if val > 0:
-                    cls.addMatch(cost, val)
+                cost['a'] += val
         else:
             for matchID in range(0, track2Length):
                 val = cost_matrix[matches[matchID], matchID]
-                if val > 0:
-                    cls.addMatch(cost, val)
+                cost['a'] += val
 
         return cost
 
     @classmethod
-    def addMatch(cls, cost, val):
-        cost['a'] += val
-        cost['b'] += (1 - val) / 2
-        cost['c'] += (1 - val) / 2
-
-    @classmethod
     def generateCostMatrix(cls, track1, track2, graph):
         """
-        Take in an LD graph, as is generated from the LDExpansions.createRSquareGraph function, and two tracks.
+        Take in an LD graph, as is generated from the LDExpansions.createRSquareGraph function, and two tracks,
+        represented as lists of the track SNP rsids.
         Return a cost matrix for the two tracks, where cells of value mark edges with specific weights between
         the nodes. Weights are rsquare values that weights edges between nodes (SNPs).
         """

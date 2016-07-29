@@ -63,9 +63,11 @@ class GSuitePrimaryTrackModifier():
 
                 if shouldLogTransform:
                     try:
-                        value = str(log(float(value)))
+                        """Convert values to -log(pval), the values of GWAS Catalog SNPs"""
+                        value = str(-log(float(value)))
                     except:
-                        print value
+                        """For SNPs with reported p-value of 0.000, assume high significance"""
+                        value = str(-log(0.0005))
 
                 seq, pos = RsidMapper.getPosition(rsid, rsidDict)
                 if seq and pos:

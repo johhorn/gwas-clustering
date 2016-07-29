@@ -77,7 +77,7 @@ class CommonCorrelationFunctions(CommonClusteringFunctions):
         htmlCore.smallHeader('Correlation with ' + corrStat)
         corr, linkage, distance = cls.getDistMatrixes(corrDict, corrStat, linkageCriterion)
         cls.printClusterPlots(corr, linkage, galaxyFn, corrStat, labels, htmlCore)
-        cls.printTextMatrixes(corr, linkage, galaxyFn, corrStat, htmlCore)
+        cls.printTextMatrixes(corr, linkage, distance, galaxyFn, corrStat, htmlCore)
         cls.findRanking(distance, labels, corrStat, htmlCore)
 
     @classmethod
