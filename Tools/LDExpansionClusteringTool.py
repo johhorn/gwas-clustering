@@ -17,7 +17,7 @@ class LDExpansionClusteringTool(CommonClusteringFunctions, DebugMixin):
 
     @staticmethod
     def getToolName():
-        return "Direct base pair clustering using LD expansion"
+        return "Clustering using definition of haplotype blocks"
 
     @staticmethod
     def isPublic():
@@ -109,7 +109,7 @@ class LDExpansionClusteringTool(CommonClusteringFunctions, DebugMixin):
 
     @staticmethod
     def isDebugMode():
-        return True
+        return False
 
     @staticmethod
     def getOutputFormat(choices=None):
@@ -141,7 +141,7 @@ class LDExpansionClusteringTool(CommonClusteringFunctions, DebugMixin):
         from gold.result.HtmlCore import HtmlCore
 
         core = HtmlCore()
-        core.smallHeader('Clustering using LD clusters')
+        core.smallHeader('Clustering of haplotype blocks')
         core.paragraph('This tool makes use of actual LD information when it compares genetic loci.'
                        'The LD is given in the form of a linked point track. Base pairs in LD will be seen as '
                        'a correlated LD cluster within the same track. Overlap between these LD clusters on '
@@ -154,10 +154,10 @@ class LDExpansionClusteringTool(CommonClusteringFunctions, DebugMixin):
                        '<li>a: Positive matches: Overlap between LD clusters </li>'
                        '<li>b: Count of unmatched LD clusters in first track</li>'
                        '<li>c: Count of unmatched LD clusters in second track</li>'
-                       '<li>d: Negative matches: Genome size - a - b - c</li>'
+                       '<li>d: Not defined</li>'
                        '</ul>')
         core.divider()
-        core.smallHeader('Similarity/correlation definitions')
+        core.smallHeader('Similarity definitions')
         core.paragraph(''
                        '<ul>'
                        '<li>Jaccard: a / (a + b + c) </li>'
@@ -166,34 +166,28 @@ class LDExpansionClusteringTool(CommonClusteringFunctions, DebugMixin):
                        '<li>Otsuka: a / sqrt((a + b) * (a + c)) </li>'
                        '<li>Sorgenfrei: a ** 2 / ((a + b) * (a + c)) </li>'
                        '<li>Kulczynski: ((a / 2) * (2 * a + b + c)) / ((a + b) * (a + c))</li>'
-                       '<li>Forbes: (n * a) / ((a + c) * (a + b))</li>'
                        '<li>McConnaughey: ((a ** 2) - (b * c)) / (a + b) * (a + c) </li>'
-                       '<li>Pearson: ((a * d) - (b * c)) / (sqrt((a + b) * (d + c) * (a + c) * (d + b)))'
                        '</ul>'
-                       'The six first elements of the list are measures of similarity. The next, Forbes, measures '
-                       'expected overlap (A value of 10 means it overlaps 10 times more than what is expected, given '
-                       'independence. A value of 0.01 means it overlaps 10 times less). The last two measures are'
-                       'correlation coefficients, and output a value between -1 and 1.')
+                       'All measures are defined from binary operational taxonomic units (OTUs).'
+                       'They evaluate how similar two tracks are, and the different measures focus on different '
+                       'properties.')
 
         core.divider()
         core.smallHeader('Converting similarity and correlation into distance')
         core.paragraph('To cluster the tracks, given the different definitions of correlation and similarity, the '
                        'measures must be converted into standardized distance measures. <br>'
-                       'The six first similarity measures is converted into distances by subtracting them from 1.'
-                       'The distance value for Forbes is computed by 1 / max(1, log(forbes) + 1), as we are interested '
-                       'in the cases where overlap happens more than expected.')
-        core.paragraph('The last two measures, McConnaughey and Pearson, output coefficients between -1 and 1. '
-                       'A value of -1 indicate the two tracks are highly independent with respect to location, '
-                       'while 1 means high correlation and co-occurrence of SNPs. They are normalized to a distance '
+                       'The six first similarity measures is converted into distances by subtracting them from 1.')
+        core.paragraph('The last measure, McConnaughey, output a value between -1 and 1, and is normalized to a '
+                       'distance '
                        'measure by (corr + 1) / 2. High positive correlation gives small distance, while high '
                        'negative correlation gives large distance.')
         core.divider()
         core.smallHeader('Output')
-        core.paragraph('For the measure chosen for the clustering, the output is a heatmap of all pairwise distances '
-                       'between tracks in the given GSuite. For McConnaughey and Pearson, '
-                       'the heatmap output the correlation coefficients. In addition, a clustering dendrogram show '
+        core.paragraph('For the measure chosen for the clustering, the output is a heatmap of all pairwise '
+                       'similarities '
+                       'between tracks in the given GSuite. In addition, a clustering dendrogram show '
                        'the relations between the tracks, computed from the standardized distance of the measure. '
-                       'Raw text values for correlation or distance matrixes, as well as the linkage matrix, are '
+                       'Raw text values for similarity and distance matrixes, as well as the linkage matrix, are '
                        'included. Lastly, a rank matrix is printed, to show the order of the standardized pairwise '
                        'distances. The smallest rank show which tracks have the smallest distance between them.')
         return str(core)

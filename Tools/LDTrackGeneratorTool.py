@@ -39,7 +39,7 @@ class LDTrackGeneratorTool(GeneralGuiTool, DebugMixin):
 
     @staticmethod
     def isDebugMode():
-        return True
+        return False
 
     @classmethod
     def execute(cls, choices, galaxyFn=None, username=''):

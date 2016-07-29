@@ -21,7 +21,7 @@ class LociClusteringTool(DebugMixin, CommonClusteringFunctions):
 
     @staticmethod
     def isDebugMode():
-        return True
+        return False
 
     @staticmethod
     def getToolName():
@@ -183,7 +183,7 @@ class LociClusteringTool(DebugMixin, CommonClusteringFunctions):
                        '<li>a: SNPs map to same genetic loci</li>'
                        '<li>b: SNP in first track has no overlap</li>'
                        '<li>c: SNP in second track has no overlap</li>'
-                       '<li>d: Undefined</li>'
+                       '<li>d: Not defined</li>'
                        '</ul>'
                        'With the gaussian definition, overlap is updated for <i>a</i> with a gaussian score, based on '
                        'the distance between the SNPs that map to the same loci, while b and c is updated with '
@@ -192,7 +192,7 @@ class LociClusteringTool(DebugMixin, CommonClusteringFunctions):
                        'Negative matches, <i>d</i>, and consequently, <i>n</i>, is not defined with this feature '
                        'representation.')
         core.divider()
-        core.smallHeader('Similarity/correlation definitions')
+        core.smallHeader('Similarity definitions')
         core.paragraph(''
                        '<ul>'
                        '<li>Jaccard: a / (a + b + c) </li>'
@@ -203,26 +203,26 @@ class LociClusteringTool(DebugMixin, CommonClusteringFunctions):
                        '<li>Kulczynski: ((a / 2) * (2 * a + b + c)) / ((a + b) * (a + c))</li>'
                        '<li>McConnaughey: ((a ** 2) - (b * c)) / (a + b) * (a + c) </li>'
                        '</ul>'
-                       'The six first elements of the list are measures of similarity. The last measure is a'
-                       'correlation coefficient, and output a value between -1 and 1.')
+                       'All measures are defined from binary operational taxonomic units (OTUs).'
+                       'They evaluate how similar two tracks are, and the different measures focus on different '
+                       'properties.')
 
         core.divider()
         core.smallHeader('Converting similarity and correlation into distance')
         core.paragraph('To cluster the tracks, given the different definitions of correlation and similarity, the '
                        'measures must be converted into standardized distance measures. <br>'
-                       'The six first similarity measures is converted into distances by subtracting them from 1.'
-                       'McConnaughey output a correlation coefficient between -1 and 1. '
-                       'A value of -1 indicate the two tracks are highly independent with respect to location, '
-                       'while 1 means high correlation and co-occurrence of SNPs. It is normalized to a distance '
+                       'The six first similarity measures is converted into distances by subtracting them from 1.')
+        core.paragraph('The last measure, McConnaughey, output a value between -1 and 1, and is normalized to a '
+                       'distance '
                        'measure by (corr + 1) / 2. High positive correlation gives small distance, while high '
                        'negative correlation gives large distance.')
         core.divider()
         core.smallHeader('Output')
-        core.paragraph('For the measure chosen for the clustering, the output is a heatmap of all pairwise distances '
-                       'between tracks in the given GSuite. For McConnaughey and Pearson, '
-                       'the heatmap output the correlation coefficients. In addition, a clustering dendrogram show '
+        core.paragraph('For the measure chosen for the clustering, the output is a heatmap of all pairwise '
+                       'similarities '
+                       'between tracks in the given GSuite. In addition, a clustering dendrogram show '
                        'the relations between the tracks, computed from the standardized distance of the measure. '
-                       'Raw text values for correlation or distance matrixes, as well as the linkage matrix, are '
+                       'Raw text values for similarity and distance matrixes, as well as the linkage matrix, are '
                        'included. Lastly, a rank matrix is printed, to show the order of the standardized pairwise '
                        'distances. The smallest rank show which tracks have the smallest distance between them.')
         return str(core)

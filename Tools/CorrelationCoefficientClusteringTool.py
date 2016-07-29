@@ -147,7 +147,7 @@ class CorrelationCoefficientClusteringTool(DebugMixin, CommonCorrelationFunction
 
     @staticmethod
     def isDebugMode():
-        return True
+        return False
 
     @classmethod
     def htmlVectorExplanation(cls, htmlCore):

@@ -21,7 +21,7 @@ class EmpiricLDDataTool(GeneralGuiTool, DebugMixin):
 
     @staticmethod
     def isDebugMode():
-        return True
+        return False
 
     @staticmethod
     def isPublic():

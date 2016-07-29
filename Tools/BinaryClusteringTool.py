@@ -18,7 +18,7 @@ class BinaryClusteringTool(DebugMixin, CommonClusteringFunctions):
 
     @staticmethod
     def isDebugMode():
-        return True
+        return False
 
     @staticmethod
     def getToolName():

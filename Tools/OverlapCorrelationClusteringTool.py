@@ -191,7 +191,7 @@ class OverlapCorrelationClusteringTool(DebugMixin, CommonCorrelationFunctions):
 
     @staticmethod
     def isDebugMode():
-        return True
+        return False
 
     @classmethod
     def htmlVectorHandling(cls, htmlCore):

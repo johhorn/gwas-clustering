@@ -32,7 +32,7 @@ class GSuiteSumstatConversionTool(GeneralGuiTool):
             ('Select GSuite from history', 'gSuite'),
             ('Filter rows by value', 'hasFilter'),
             ('Select effect size threshold to filter by', 'valFilter'),
-            ('Log-transform values (recommended for P-values)', 'logTransform'),
+            ('Log-transform values: -log(val)', 'logTransform'),
             ('Select reference genome for uniform mapping', 'refGenome')
         ]
 
@@ -59,6 +59,12 @@ class GSuiteSumstatConversionTool(GeneralGuiTool):
             GSuiteSumstatConversionTool.HG38,
             GSuiteSumstatConversionTool.HG19
         ]
+
+    @staticmethod
+    def getInfoForOptionsBoxLogTransform(choices):
+        return 'This transformation is done for p-values of SNPs in tracks extracted from the GWAS Catalog. Depending' \
+               ' on the analysis the tracks will be used for, it can be an advantage to convert the values. ' \
+               'One example is if the p-values are to be used in a comparison with Pearson correlation coefficient.'
 
     @classmethod
     def getExtraHistElements(cls, choices):

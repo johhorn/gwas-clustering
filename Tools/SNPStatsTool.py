@@ -31,7 +31,7 @@ class SNPStatsTool(GeneralGuiTool, DebugMixin):
 
     @staticmethod
     def isDebugMode():
-        return True
+        return False
 
     @classmethod
     def getInputBoxNames(cls):
@@ -93,7 +93,7 @@ class SNPStatsTool(GeneralGuiTool, DebugMixin):
             cls.addDistances(distances, result.getGlobalResult()['Result'])
 
         cls.printStats(distances, 'distance', htmlCore)
-        cls.plotDistances(distances, galaxyFn, 'distances within tracks', htmlCore)
+        cls.plotDistances(distances, galaxyFn, 'within', htmlCore)
 
     @classmethod
     def getDistancesBetween(cls, analysisBins, gSuite, galaxyFn, htmlCore):
@@ -119,7 +119,7 @@ class SNPStatsTool(GeneralGuiTool, DebugMixin):
 
         cls.printStats(distances, 'distance', htmlCore)
         htmlCore.line('Asymmetries related to alternating shortest distance: ' + str(cls.countAsymmetries(distances)))
-        cls.plotDistances(distances, galaxyFn, 'distances between tracks', htmlCore)
+        cls.plotDistances(distances, galaxyFn, 'between', htmlCore)
 
     @classmethod
     def printStats(cls, objectList, type, htmlCore):
@@ -178,7 +178,7 @@ class SNPStatsTool(GeneralGuiTool, DebugMixin):
         cls.getInteractiveColumnChartWithLabels(snpCount, trackLabels, htmlCore)
 
     @classmethod
-    def plotDistances(cls, distances, galaxyFn, label, htmlCore):
+    def plotDistances(cls, distances, galaxyFn, distCase, htmlCore):
 
         # Plot distance graph
         xdata, ydata = cls.standardizeLineGraph(distances)
@@ -187,7 +187,7 @@ class SNPStatsTool(GeneralGuiTool, DebugMixin):
                                    'Distance point count')
         # Write distance graph
         htmlCore.divider(True)
-        htmlCore.header('Graph of smallest distances for all points ' + cls.getDistanceCase() + ' tracks in GSuite')
+        htmlCore.header('Graph of smallest distances for all points ' + distCase + ' tracks in GSuite')
         htmlCore.line(distFile.getEmbeddedImage())
         htmlCore.link('PDF of distance graph', distFile.getURL())
 
@@ -202,20 +202,20 @@ class SNPStatsTool(GeneralGuiTool, DebugMixin):
 
         # Write distance histograms
         htmlCore.divider(True)
-        htmlCore.header('Histogram of smallest distances for all points ' + cls.getDistanceCase() +
+        htmlCore.header('Histogram of smallest distances for all points ' + distCase +
                         ' tracks in GSuite')
         htmlCore.line(helperText)
         htmlCore.line(histFile.getEmbeddedImage())
         htmlCore.link('PDF of distance histogram', histFile.getURL())
 
-        htmlCore.header('Histogram of log of smallest distances for all points ' + cls.getDistanceCase() +
+        htmlCore.header('Histogram of log of smallest distances for all points ' + distCase +
                         ' tracks in GSuite')
         htmlCore.line(helperText)
         htmlCore.line(loghistFile.getEmbeddedImage())
         htmlCore.link('PDF of log distance histogram', loghistFile.getURL())
 
         # Plot and write interactive bar chart
-        cls.getInteractiveColumnChart(dist, htmlCore)
+        cls.getInteractiveColumnChart(dist, distCase, htmlCore)
 
     @classmethod
     def standardizeLineGraph(cls, distances):
@@ -249,17 +249,17 @@ class SNPStatsTool(GeneralGuiTool, DebugMixin):
         return count
 
     @classmethod
-    def getInteractiveColumnChart(cls, distances, htmlCore):
+    def getInteractiveColumnChart(cls, distances, distCase, htmlCore):
         htmlCore.divider()
         htmlCore.header('Interactive distance plot')
-        htmlCore.line('To see the exact distance for the different points ' + cls.getDistanceCase() +
+        htmlCore.line('To see the exact distance for the different points ' + distCase +
                       ' tracks, hover over the bars of interest.')
         htmlCore.divEnd()  # End div set in execute to remove font settings
 
         vg = visualizationGraphs()
         lines = vg.drawColumnChart(
             dataY=distances,
-            titleText='Smallest distances for all points ' + cls.getDistanceCase() + ' tracks',
+            titleText='Smallest distances for all points ' + distCase + ' tracks',
             yAxisTitle='Distances'
         )
 
@@ -318,10 +318,3 @@ class SNPStatsTool(GeneralGuiTool, DebugMixin):
                        'distances between points in the given GSuite.')
 
         return str(core)
-
-    @classmethod
-    def getDistanceCase(cls):
-        if cls.SNP_WITHIN:
-            return 'within'
-        else:
-            return 'between'

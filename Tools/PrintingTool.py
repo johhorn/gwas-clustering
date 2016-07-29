@@ -21,7 +21,7 @@ class PrintingTool(GeneralGuiTool, DebugMixin):
 
     @staticmethod
     def isPublic():
-        return True
+        return False
 
     @classmethod
     def getInputBoxNames(cls):
@@ -85,7 +85,7 @@ class PrintingTool(GeneralGuiTool, DebugMixin):
                 observations = result.getGlobalResult()['Result']
                 rsIDs.update(observations)
 
-        core.smallHeader('Printing snps from GSuite of ' + str(gSuite.numTracks()) + ' tracks')
+        core.smallHeader('Printing snps from GSuite of ' + str(gSuite.numTracks()) + ' tracks<br>')
         for rsid in rsIDs:
             core.line(rsid)
 
@@ -97,7 +97,7 @@ class PrintingTool(GeneralGuiTool, DebugMixin):
             track = Track(gSuiteTrack.trackName)
             result = doAnalysis(analysisSpec, analysisBins, [track])
 
-            core.smallHeader('<br><br><br>' + gSuiteTrack.title + '<br><br>')
+            core.smallHeader('<br><br><br>' + gSuiteTrack.title + '<br><br><br>')
             if 'Result' in result.getGlobalResult():
                 observations = result.getGlobalResult()['Result']
                 for snp in observations:
