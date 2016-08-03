@@ -6,7 +6,7 @@ from quick.statistic.ExpandWithLDVariantStat import ExpandWithLDVariantStat
 
 class ExpandTrackAndMatchStat(MagicStatFactory):
     """
-    Statistic which calculates positive matches (1, 1), negative matches (0, 0) and mismatches (0, 1) or (1, 0)
+    Statistic which calculates positive matches (1, 1) and mismatches (0, 1) or (1, 0)
     between two tracks. Is made for valued point tracks, and return a genome-wide count.
 
     Each binary feature represents an LD cluster.
@@ -18,7 +18,7 @@ class ExpandTrackAndMatchStat(MagicStatFactory):
     a: Overlap between LD clusters
     b: Count of unmatched LD clusters in track1
     c: Count of unmatched LD clusters in track2
-    d: Negative matches: Undefined (-1)
+    d: Negative matches, undefined (-1)
 
     See example of usage in quick/webtools/clustering/LDExpansionClusteringTool.py
     """
